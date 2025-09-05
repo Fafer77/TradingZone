@@ -1,32 +1,18 @@
 "use client"
 
 import * as React from "react"
-import {
-  Settings2,
-  CalendarCheck2,
-  BookMarked,
-  Calculator,
-  LayoutDashboard,
-  Home
-} from "lucide-react"
-
-import { NavMain, type NavItem} from "@/components/nav-main"
+import { ChevronLeft, ChevronRight, LayoutDashboard, BookMarked, CalendarCheck2, Calculator } from "lucide-react"
+import { useSidebar } from "@/components/ui/sidebar"
+import { Button } from "@/components/ui/button"
+import { NavMain, type NavItem } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
 } from "@/components/ui/sidebar"
-
-const data = {
-  user: {
-    name: "fafer77",
-    email: "fafer77@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-}
+import { cn } from "@/lib/utils"
 
 const platformItems: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -35,18 +21,50 @@ const platformItems: NavItem[] = [
   { title: "Risk Calculator", url: "/risk-calculator", icon: Calculator },
 ]
 
+const userData = {
+  user: {
+    name: "fafer77",
+    email: "fafer77@gmail.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { state, toggleSidebar } = useSidebar()
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-      </SidebarHeader>
+      {state === "expanded" ? (
+        <SidebarHeader className="flex w-full flex-row justify-end p-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden md:flex"
+            onClick={toggleSidebar}
+          >
+            <ChevronLeft />
+          </Button>
+        </SidebarHeader>
+      ) : (
+        <SidebarHeader className="flex justify-center p-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden md:flex"
+            onClick={toggleSidebar}
+          >
+            <ChevronRight />
+          </Button>
+        </SidebarHeader>
+      )}
+
       <SidebarContent>
-        <NavMain items={platformItems} title='platform'/>
+        <NavMain items={platformItems} title="Platform" />
       </SidebarContent>
+
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData.user} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   )
 }

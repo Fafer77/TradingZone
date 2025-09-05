@@ -1,18 +1,15 @@
 import { Outlet } from "react-router-dom"
 import { AppSidebar } from "@/components/app-sidebar"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { cn } from "@/lib/utils"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
 export default function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-
-      <main className="w-full">
-        <SidebarTrigger />
+      {/* Ten div jest kontenerem na całą treść strony obok sidebara */}
+      <div className="flex flex-1 flex-col overflow-y-auto">
         <Outlet />
-      </main>
-
+      </div>
     </SidebarProvider>
   )
 }
