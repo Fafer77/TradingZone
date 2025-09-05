@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import {
-  LogIn, LogOut, ShieldX, Sparkles, Wallet, Pencil, Trash2, Check, X, ArrowRight, Ban,
-} from "lucide-react"
+  LogIn, LogOut, ShieldX, Sparkles, Wallet, Pencil, Trash2, Check, X, ArrowRight, Ban, CircleDashed,
+} from "lucide-react" // ✅ ZMIANA 1: Dodano CircleDashed
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -35,7 +35,7 @@ const checklistItems = [
 
 type ChecklistState = Record<string, "yes" | "no" | null>;
 
-function ChecklistItem({ item, selection, onSelectionChange }: { item: { id: string, label: string }, selection: "yes" | "no" | null, onSelectionChange: (id: string, value: "yes" | "no") => void }) {
+function ChecklistItem({ item, selection, onSelectionChange }: { item: { id: string, label: string }, selection: "yes" | "no" | null, onSelectionChange: (id: string, value: "yes" | "no" | null) => void }) { // ✅ ZMIANA 2: Dodano `null` do typu `onSelectionChange`
   return (
     <div className="flex justify-between items-center">
       <label className="text-sm font-medium pr-4">{item.label}</label>
@@ -43,7 +43,7 @@ function ChecklistItem({ item, selection, onSelectionChange }: { item: { id: str
         <Button
           variant={selection === "yes" ? "default" : "outline"}
           size="sm"
-          onClick={() => onSelectionChange(item.id, "yes")}
+          onClick={() => onSelectionChange(item.id, selection === "yes" ? null : "yes")} // ✅ ZMIANA 2: Logika odznaczania
           className={cn("w-20", selection === "yes" && "bg-emerald-600 hover:bg-emerald-700 border-emerald-600 text-white")}
         >
           <Check className="mr-2 h-4 w-4" /> Yes
@@ -51,7 +51,7 @@ function ChecklistItem({ item, selection, onSelectionChange }: { item: { id: str
         <Button
           variant={selection === "no" ? "default" : "outline"}
           size="sm"
-          onClick={() => onSelectionChange(item.id, "no")}
+          onClick={() => onSelectionChange(item.id, selection === "no" ? null : "no")} // ✅ ZMIANA 2: Logika odznaczania
           className={cn("w-20", selection === "no" && "bg-rose-600 hover:bg-rose-700 border-rose-600 text-white")}
         >
           <X className="mr-2 h-4 w-4" /> No
@@ -66,7 +66,7 @@ export function PlaybookItem() {
     checklistItems.reduce((acc, item) => ({ ...acc, [item.id]: null }), {})
   );
 
-  const handleChecklistChange = (id: string, value: "yes" | "no") => {
+  const handleChecklistChange = (id: string, value: "yes" | "no" | null) => { // ✅ ZMIANA 2: Dodano `null` do typu `value`
     setChecklistState(prevState => ({ ...prevState, [id]: value }));
   };
 
@@ -74,10 +74,13 @@ export function PlaybookItem() {
     return checklistItems.every(item => checklistState[item.id] === "yes");
   }, [checklistState]);
 
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] w-full max-w-7xl gap-8">
+  const isChecklistComplete = React.useMemo(() => {
+    return checklistItems.every(item => checklistState[item.id] !== null);
+  }, [checklistState]);
 
-      {/* Lewa Karta: Opis Strategii */}
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] w-full max-w-7xl gap-8 lg:items-start">
+
       <Card className="w-full bg-zinc-950 border-zinc-800">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -86,7 +89,6 @@ export function PlaybookItem() {
               {playbookData.category}
             </Badge>
           </div>
-          {/* ✅ ZMIANA 3: Dodano `break-words` dla bezpieczeństwa */}
           <CardDescription className="break-words">{playbookData.description}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -98,7 +100,6 @@ export function PlaybookItem() {
                 </AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc list-inside space-y-2 pl-2">
-                    {/* ✅ ZMIANA 3: Dodano `break-words` dla bezpieczeństwa */}
                     {section.content.map((point) => <li key={point} className="break-words">{point}</li>)}
                   </ul>
                 </AccordionContent>
@@ -112,7 +113,6 @@ export function PlaybookItem() {
         </CardFooter>
       </Card>
 
-      {/* Prawa Karta: Checklista */}
       <Card className="w-full bg-zinc-950 border-zinc-800 flex flex-col">
         <CardHeader>
           <CardTitle>Pre-Trade Checklist</CardTitle>
@@ -134,13 +134,29 @@ export function PlaybookItem() {
         </CardContent>
         <CardFooter>
           {allYes ? (
-            // ✅ ZMIANA 1: Fioletowy przycisk
-            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+            // ✅ ZMIANA 1: Fioletowy przycisk z gradientem
+            <Button className="w-full font-semibold transition-all duration-300
+                              bg-gradient-to-r from-purple-700 to-indigo-600
+                              text-white shadow-lg shadow-purple-900/40
+                              hover:from-purple-800 hover:to-indigo-700
+                              focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-zinc-900
+                              border border-purple-500"
+            >
               Execute Trade <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           ) : (
-            <Button className="w-full" variant="destructive" disabled>
-              <Ban className="mr-2 h-4 w-4" /> Conditions Not Met
+            // ✅ ZMIANA 3: Jeśli checklist nie jest ukończony, wyświetl przycisk z Ban lub CircleDashed
+            <Button 
+                className="w-full bg-zinc-800 text-zinc-400 border border-zinc-700
+                           cursor-not-allowed opacity-70 transition-colors duration-300" 
+                variant="outline" 
+                disabled
+            >
+              {isChecklistComplete ? 
+                 <Ban className="mr-2 h-4 w-4" /> : 
+                 <CircleDashed className="mr-2 h-4 w-4" />
+              }
+              {isChecklistComplete ? "Conditions Not Met" : "Complete Checklist"}
             </Button>
           )}
         </CardFooter>
