@@ -14,7 +14,8 @@ class PlaybookSerializer(serializers.ModelSerializer):
             'sl_rules',
             'confluence',
             'trade_management',
-            'owner'
+            'owner',
+            'checklist'
         ]
 
         read_only_fields = ['owner']

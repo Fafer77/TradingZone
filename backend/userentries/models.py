@@ -24,6 +24,8 @@ class Playbook(models.Model):
     confluence = models.JSONField(default=list)
     trade_management = models.JSONField(default=list)
 
+    checklist = models.JSONField(default=list)
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='playbooks')
 
     def __str__(self):

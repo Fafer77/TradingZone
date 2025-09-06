@@ -1,33 +1,47 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Layout from "./layout";
 import Playbook from "./pages/Playbook";
 import Drc from "./pages/Drc";
 import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import CreatePlaybookPage from "./pages/CreatePlaybookPage";
 
 const router = createBrowserRouter([
   {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
+  },
+  {
     path: '/',
-    element: <Layout/>,
+    element: <ProtectedRoute />,
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
       },
       {
         path: 'playbook',
-        element: <Playbook />
+        element: <Playbook />,
       },
       {
         path: 'drc',
-        element: <Drc />
+        element: <Drc />,
+      },
+      {
+        path: 'playbook/new',
+        element: <CreatePlaybookPage />
       }
     ],
-  }
-])
+  },
+]);
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
