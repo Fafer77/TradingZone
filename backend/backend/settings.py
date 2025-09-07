@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'userentries',
     'drc',
+    'trade_samples',
 ]
 
 MIDDLEWARE = [

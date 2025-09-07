@@ -11,4 +11,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('userentries.urls')),
     path('api/', include('drc.urls')),
+    path('api/', include('trade_samples.urls'))
 ]
