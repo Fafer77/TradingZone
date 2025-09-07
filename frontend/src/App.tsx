@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Playbook from "./pages/Playbook";
-import Drc from "./pages/Drc";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -8,6 +7,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CreatePlaybookPage from "./pages/CreatePlaybookPage";
 import PlaybookDetailPage from './pages/PlaybookDetailPage';
 import EditPlaybookPage from './pages/EditPlaybookPage';
+import DRCPage from './pages/DRCPage';
+import CreateDRCPage from './pages/CreateDRCPage';
+import DRCDetailPage from './pages/DRCDetailPage';
+import EditDRCPage from './pages/EditDRCPage';
 
 const router = createBrowserRouter([
   {
@@ -31,10 +34,6 @@ const router = createBrowserRouter([
         element: <Playbook />,
       },
       {
-        path: 'drc',
-        element: <Drc />,
-      },
-      {
         path: 'playbook/new',
         element: <CreatePlaybookPage />
       },
@@ -45,6 +44,22 @@ const router = createBrowserRouter([
       {
         path: 'playbook/edit/:playbookId',
         element: <EditPlaybookPage />
+      },
+      {
+      path: 'drc',
+      element: <DRCPage />,
+      },
+      {
+        path: 'drc/new',
+        element: <CreateDRCPage />,
+      },
+      {
+        path: 'drc/:drcId',
+        element: <DRCDetailPage />
+      },
+      {
+        path: 'drc/edit/:drcId',
+        element: <EditDRCPage />
       }
     ],
   },
