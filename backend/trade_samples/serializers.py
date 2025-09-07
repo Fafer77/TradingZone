@@ -4,7 +4,21 @@ from .models import TradeSample, Trade
 class TradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trade
-        fields = '__all__'
+        fields = [
+            'id',
+            'sample',
+            'strategy',
+            'date',
+            'instrument',
+            'initial_risk_pips',
+            'initial_target_pips',
+            'realized_pnl',
+            'realized_r_multiple',
+            'outcome',
+            'rules_followed',
+            'context',
+            'comment',
+        ]
         read_only_fields = ['sample'] 
 
 class TradeSampleSerializer(serializers.ModelSerializer):

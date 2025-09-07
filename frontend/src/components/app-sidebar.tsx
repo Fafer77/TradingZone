@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight, LayoutDashboard, BookMarked, CalendarCheck2, Calculator } from "lucide-react"
+import { ChevronLeft, ChevronRight, ScrollText, LayoutDashboard, BookMarked, CalendarCheck2, Calculator } from "lucide-react"
 import { useSidebar } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { NavMain, type NavItem } from "@/components/nav-main"
@@ -19,6 +19,7 @@ const platformItems: NavItem[] = [
   { title: "Playbook", url: "/playbook", icon: BookMarked },
   { title: "Daily Report Card", url: "/drc", icon: CalendarCheck2 },
   { title: "Risk Calculator", url: "/risk-calculator", icon: Calculator },
+  { title: "Trade Samples", url: "/samples", icon: ScrollText},
 ]
 
 const userData = {

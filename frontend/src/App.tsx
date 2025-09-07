@@ -11,6 +11,11 @@ import DRCPage from './pages/DRCPage';
 import CreateDRCPage from './pages/CreateDRCPage';
 import DRCDetailPage from './pages/DRCDetailPage';
 import EditDRCPage from './pages/EditDRCPage';
+import TradeSamplesPage from './pages/TradeSamplesPage';
+import TradeSampleDetailPage from './pages/TradeSampleDetailPage';
+import CreateTradeSamplePage from "./pages/CreateTradeSamplePage";
+import AddTradePage from './pages/AddTradePage';
+import EditTradePage from "./pages/EditTradePage";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +65,27 @@ const router = createBrowserRouter([
       {
         path: 'drc/edit/:drcId',
         element: <EditDRCPage />
-      }
+      },
+      {
+        path: 'samples',
+        element: <TradeSamplesPage />
+      },
+      {
+        path: 'samples/:sampleId',
+        element: <TradeSampleDetailPage />
+      },
+      {
+        path: 'samples/new',
+        element: <CreateTradeSamplePage />
+      },
+      {
+        path: `samples/:sampleId/add-trade`,
+        element: <AddTradePage />
+      },
+      {
+        path: 'samples/:sampleId/trades/:tradeId/edit',
+        element: <EditTradePage />,
+      },
     ],
   },
 ]);
