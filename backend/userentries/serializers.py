@@ -6,16 +6,17 @@ class PlaybookSerializer(serializers.ModelSerializer):
         model = Playbook
         fields = [
             'id', 
-            'category', 
+            'title',
             'overview',
             'trade_type',
             'entry_criteria',
             'exit_strategy',
-            'sl_rules',
-            'confluence',
+            'stop_loss_rules',
+            'enhancers',
             'trade_management',
             'owner',
-            'checklist'
+            'checklist',
+            'trade_database'
         ]
 
         read_only_fields = ['owner']

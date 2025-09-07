@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -11,8 +12,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
+import { Skeleton } from "@/components/ui/skeleton"
 
-
+// Schemat formularza i walidacja Zod
 const playbookSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters long." }),
   overview: z.string().optional(),
@@ -25,9 +27,12 @@ const playbookSchema = z.object({
   checklist: z.string().min(1, { message: "Checklist items are required." }),
 });
 
-
-export default function CreatePlaybookPage() {
+// Główny komponent strony
+export default function EditPlaybookPage() {
+  const { playbookId } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
   const form = useForm<z.infer<typeof playbookSchema>>({
     resolver: zodResolver(playbookSchema),
     defaultValues: {
@@ -42,6 +47,37 @@ export default function CreatePlaybookPage() {
     },
   });
 
+  // Pobieranie istniejących danych
+  useEffect(() => {
+    if (playbookId) {
+      setLoading(true);
+      api.get(`/api/playbooks/${playbookId}/`)
+        .then((res) => {
+          const playbook = res.data;
+          // Konwersja tablic z API na stringi dla pól Textarea
+          const dataForForm = {
+            ...playbook,
+            entry_criteria: playbook.entry_criteria.join('\n'),
+            exit_strategy: playbook.exit_strategy.join('\n'),
+            stop_loss_rules: playbook.stop_loss_rules.join('\n'),
+            enhancers: playbook.enhancers ? playbook.enhancers.join('\n') : "",
+            trade_management: playbook.trade_management ? playbook.trade_management.join('\n') : "",
+            checklist: playbook.checklist.join('\n'),
+          };
+          form.reset(dataForForm); // Wypełniamy formularz danymi z API
+        })
+        .catch((error) => {
+          toast.error("Failed to load playbook data.");
+          console.error(error);
+          navigate("/playbook"); // Wróć, jeśli nie uda się załadować danych
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [playbookId, form]);
+
+  // Logika wysyłania zaktualizowanych danych
   async function onSubmit(values: z.infer<typeof playbookSchema>) {
     const splitToArray = (text: string | undefined) => text ? text.split('\n').filter(line => line.trim() !== '') : [];
 
@@ -56,20 +92,32 @@ export default function CreatePlaybookPage() {
     };
 
     try {
-      await api.post("/api/playbooks/", dataToSubmit);
-      toast.success("Playbook created successfully!");
-      navigate("/playbook");
+      await api.put(`/api/playbooks/${playbookId}/`, dataToSubmit);
+      toast.success("Playbook updated successfully!");
+      navigate(`/playbook/${playbookId}`);
     } catch (error) {
-      toast.error("Failed to create playbook. Please try again.");
+      toast.error("Failed to update playbook. Please try again.");
       console.error(error);
     }
   }
 
+  // Widok ładowania
+  if (loading) {
+    return (
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            <Skeleton className="h-10 w-1/2" />
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-[600px] w-full"/>
+        </main>
+    )
+  }
+
+  // Widok formularza
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
       <div className="grid gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Create New Playbook</h1>
-        <p className="text-muted-foreground">Fill in the details of your new trading strategy.</p>
+        <h1 className="text-3xl font-bold tracking-tight">Edit Playbook</h1>
+        <p className="text-muted-foreground">Update the details of your trading strategy.</p>
       </div>
       
       <Form {...form}>
@@ -91,7 +139,7 @@ export default function CreatePlaybookPage() {
                 <FormField control={form.control} name="trade_type" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Trade Type</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                       <FormControl>
                         <SelectTrigger><SelectValue placeholder="Select a type..." /></SelectTrigger>
                       </FormControl>
@@ -138,7 +186,7 @@ export default function CreatePlaybookPage() {
               
               <FormField control={form.control} name="enhancers" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Extra Confirmations (makes it extra good)</FormLabel>
+                  <FormLabel>Extra Confirmations (Enhancers)</FormLabel>
                   <FormControl><Textarea placeholder="What makes the play extra good? List on new lines..." {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
@@ -162,7 +210,7 @@ export default function CreatePlaybookPage() {
             </CardContent>
           </Card>
           <div className="flex justify-end">
-            <Button type="submit">Create Playbook</Button>
+            <Button type="submit">Save Changes</Button>
           </div>
         </form>
       </Form>

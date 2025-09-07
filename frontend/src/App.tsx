@@ -6,6 +6,8 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreatePlaybookPage from "./pages/CreatePlaybookPage";
+import PlaybookDetailPage from './pages/PlaybookDetailPage';
+import EditPlaybookPage from './pages/EditPlaybookPage';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: 'playbook/new',
         element: <CreatePlaybookPage />
+      },
+      {
+        path: 'playbook/:playbookId',
+        element: <PlaybookDetailPage />
+      },
+      {
+        path: 'playbook/edit/:playbookId',
+        element: <EditPlaybookPage />
       }
     ],
   },

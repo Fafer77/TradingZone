@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Link } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import {
   Card,
@@ -13,6 +14,7 @@ type Category = {
 };
 
 type Strategy = {
+  id: string;
   name: string;
   ev: number;
 };
@@ -42,24 +44,26 @@ export function StrategyCard({ strategy, themeColor, className, ...props }: Stra
   };
 
   return (
-    <Card
-      className={cn(
-        "relative overflow-hidden bg-zinc-950 transition-transform hover:-translate-y-1",
-        "before:absolute before:top-0 before:left-0 before:h-48 before:w-full before:rounded-full before:blur-3xl before:opacity-30 before:-z-10",
-        themeClasses[themeColor],
-        className
-      )}
-      {...props}
-    >
-      <CardContent className="p-4 py-0">
-        <p className="text-sm font-semibold truncate">{strategy.name}</p>
-        <div className="flex items-center justify-between mt-1">
-            <p className="text-sm font-bold tracking-tight">EV {strategy.ev.toFixed(2)}</p>
-            <Badge variant="outline" className={cn("text-xs font-semibold", category.className)}>
-              {category.label}
-            </Badge>
-        </div>
-      </CardContent>
-    </Card>
+    <Link to={`/playbook/${strategy.id}`} className="block">
+      <Card
+        className={cn(
+          "relative overflow-hidden bg-zinc-950 transition-transform hover:-translate-y-1",
+          "before:absolute before:top-0 before:left-0 before:h-48 before:w-full before:rounded-full before:blur-3xl before:opacity-30 before:-z-10",
+          themeClasses[themeColor],
+          className
+        )}
+        {...props}
+      >
+        <CardContent className="p-4 py-0">
+          <p className="text-sm font-semibold truncate">{strategy.name}</p>
+          <div className="flex items-center justify-between mt-1">
+              <p className="text-sm font-bold tracking-tight">EV {strategy.ev.toFixed(2)}</p>
+              <Badge variant="outline" className={cn("text-xs font-semibold", category.className)}>
+                {category.label}
+              </Badge>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
