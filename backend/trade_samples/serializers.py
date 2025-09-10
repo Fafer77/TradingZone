@@ -23,6 +23,7 @@ class TradeSerializer(serializers.ModelSerializer):
 
 class TradeSampleSerializer(serializers.ModelSerializer):
     trades = TradeSerializer(many=True, read_only=True)
+    trades_count = serializers.SerializerMethodField()
 
     class Meta:
         model = TradeSample
@@ -35,6 +36,10 @@ class TradeSampleSerializer(serializers.ModelSerializer):
             'grade', 
             'pnl', 
             'owner',
-            'trades'
+            'trades',
+            'trades_count'
         ]
         read_only_fields = ['owner']
+    
+    def get_trades_count(self, obj):
+        return obj.trades.count()

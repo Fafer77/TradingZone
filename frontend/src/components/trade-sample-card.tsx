@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
@@ -8,6 +8,8 @@ type Sample = {
   name: string;
   start_date: string;
   pnl: number;
+  trades_count: number;
+  size: number;
 };
 
 export function TradeSampleCard({ sample }: { sample: Sample }) {
@@ -20,7 +22,10 @@ export function TradeSampleCard({ sample }: { sample: Sample }) {
       <Card className="bg-zinc-950 border-zinc-800 hover:border-zinc-700 transition-colors">
         <CardHeader>
           <CardTitle className="text-lg">{sample.name}</CardTitle>
-          <CardDescription>Started: {sample.start_date}</CardDescription>
+          <div className="flex justify-between text-sm text-muted-foreground">
+            <span>Started: {sample.start_date}</span>
+            <span>{sample.trades_count} / {sample.size}</span>
+          </div>
         </CardHeader>
         <CardFooter>
           <div className={cn("flex items-center text-lg font-bold", pnlColor)}>

@@ -24,6 +24,7 @@ export type TradeSampleFromAPI = {
   pnl: string; 
   owner: number;
   trades: TradeFromAPI[];
+  trades_count: number;
 };
 
 export type PlaybookFromAPI = {

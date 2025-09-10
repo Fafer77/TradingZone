@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "@/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,12 +27,10 @@ const initialFormData = {
 
 export default function AddTradePage() {
   const { sampleId } = useParams();
-  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormData);
   const [playbooks, setPlaybooks] = useState<PlaybookFromAPI[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Pobierz listę playbooków do wyboru w dropdown
   useEffect(() => {
     api.get("/api/playbooks/")
       .then(res => setPlaybooks(res.data))
@@ -67,7 +65,7 @@ export default function AddTradePage() {
     try {
       await api.post(`/api/samples/${sampleId}/trades/`, dataToSubmit);
       toast.success("Trade added successfully!");
-      navigate(`/samples/${sampleId}`);
+      window.location.href = `/samples/${sampleId}`;
     } catch (error) {
       toast.error("Failed to add trade.");
       console.error(error);

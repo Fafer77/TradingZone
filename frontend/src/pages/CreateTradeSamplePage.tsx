@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,7 +18,6 @@ const sampleSchema = z.object({
 });
 
 export default function CreateTradeSamplePage() {
-  const navigate = useNavigate();
   const form = useForm<z.infer<typeof sampleSchema>>({
     resolver: zodResolver(sampleSchema),
     defaultValues: {
@@ -38,7 +36,7 @@ export default function CreateTradeSamplePage() {
     try {
       await api.post("/api/samples/", dataToSubmit);
       toast.success("Trade Sample created successfully!");
-      navigate("/samples");
+      window.location.href = "/samples";
     } catch (error) {
       toast.error("Failed to create the sample.");
       console.error(error);

@@ -12,7 +12,6 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { cn } from "@/lib/utils"
 
 const platformItems: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
