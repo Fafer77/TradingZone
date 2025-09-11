@@ -16,7 +16,8 @@ class PlaybookSerializer(serializers.ModelSerializer):
             'trade_management',
             'owner',
             'checklist',
-            'trade_database'
+            'trade_database',
+            'calculated_ev'
         ]
 
         read_only_fields = ['owner']

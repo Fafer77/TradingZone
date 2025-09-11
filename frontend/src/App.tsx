@@ -16,6 +16,8 @@ import TradeSampleDetailPage from './pages/TradeSampleDetailPage';
 import CreateTradeSamplePage from "./pages/CreateTradeSamplePage";
 import AddTradePage from './pages/AddTradePage';
 import EditTradePage from "./pages/EditTradePage";
+import DatabasePage from "./pages/DatabasePage";
+import LogTradePage from './pages/LogTradePage';
 
 const router = createBrowserRouter([
   {
@@ -86,6 +88,14 @@ const router = createBrowserRouter([
         path: 'samples/:sampleId/trades/:tradeId/edit',
         element: <EditTradePage />,
       },
+      {
+        path: 'database',
+        element: <DatabasePage />
+      },
+      {
+        path: 'playbook-database',
+        element: <LogTradePage />
+      }
     ],
   },
 ]);

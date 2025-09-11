@@ -39,4 +39,5 @@ export type PlaybookFromAPI = {
   trade_management: string[];
   checklist: string[];
   owner: number;
+  calculated_ev: number;
 };

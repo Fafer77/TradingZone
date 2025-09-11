@@ -1,26 +1,13 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { PlusCircle } from "lucide-react"
+import { PlusCircle, BookCopy } from "lucide-react"
 import api from "@/api"
 import { cn } from "@/lib/utils"
 import { StrategyCard } from "@/components/strategy-card"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-
-type PlaybookFromAPI = {
-  id: string;
-  title: string;
-  overview: string;
-  trade_type: "day_trading" | "scalping" | "swing_trading";
-  entry_criteria: string[];
-  exit_strategy: string[];
-  stop_loss_rules: string[];
-  enhancers: string[];
-  trade_management: string[];
-  checklist: string[];
-  owner: number;
-};
+import { type PlaybookFromAPI } from "@/types"
 
 
 export default function Playbook() {
@@ -68,12 +55,20 @@ export default function Playbook() {
           <h1 className="text-3xl font-bold tracking-tight">Trading Playbook</h1>
           <p className="text-muted-foreground">Your library of validated trading strategies and checklists.</p>
         </div>
-        <Button asChild>
-          <Link to="/playbook/new">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Create New
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild>
+            <Link to="/playbook/new">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create Playbook
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/playbook-database">
+              <BookCopy className="mr-2 h-4 w-4" />
+              Log Trade
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
@@ -99,7 +94,7 @@ export default function Playbook() {
                 groupedPlaybooks[key].map((playbook) => (
                   <StrategyCard
                     key={playbook.id}
-                    strategy={{ id: playbook.id, name: playbook.title, ev: 0 }} // calculated backend
+                    strategy={{ id: playbook.id, name: playbook.title, ev: playbook.calculated_ev || 0 }}
                     themeColor={details.theme}
                   />
                 ))

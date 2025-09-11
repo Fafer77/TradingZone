@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 import uuid
 from django.contrib.auth.models import User
 
@@ -29,6 +30,13 @@ class Playbook(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='playbooks')
 
     trade_database = models.JSONField(default=list, blank=True)
+
+    @property
+    def calculated_ev(self):
+        logs = self.trade_logs.all()
+        if logs.exists():
+            return logs.aggregate(ev=Avg('realized_r'))['ev']
+        return 0.00
 
     def __str__(self):
         return self.title
