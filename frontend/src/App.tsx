@@ -18,6 +18,7 @@ import AddTradePage from './pages/AddTradePage';
 import EditTradePage from "./pages/EditTradePage";
 import DatabasePage from "./pages/DatabasePage";
 import LogTradePage from './pages/LogTradePage';
+import DashboardSettingsPage from './pages/DashboardSettingsPage';
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,14 @@ const router = createBrowserRouter([
       {
         path: 'playbook-database',
         element: <LogTradePage />
+      },
+      {
+        path: 'dashboard/settings',
+        element: <DashboardSettingsPage />
+      },
+      {
+        path: '/risk-calculator',
+        element: <Home /> // to be updated
       }
     ],
   },

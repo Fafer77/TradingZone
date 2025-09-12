@@ -19,4 +19,5 @@ urlpatterns = [
     path('api/', include('trade_samples.urls')),
     path('api/', include(router.urls)),
     path('api/', include('analytics.urls')),
+    path('api/', include('dashboard.urls')),
 ]

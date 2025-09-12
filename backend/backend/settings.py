@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'userentries',
     'drc',
     'trade_samples',
-    'analytics'
+    'analytics',
+    'dashboard',
 ]
 
 MIDDLEWARE = [

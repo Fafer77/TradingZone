@@ -41,3 +41,15 @@ export type PlaybookFromAPI = {
   owner: number;
   calculated_ev: number;
 };
+
+export type Reminder = {
+  id: string;
+  text: string;
+};
+
+export type MarketDriver = {
+  id: string;
+  name: string;
+  percentage: number;
+  color: string;
+};
