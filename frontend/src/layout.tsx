@@ -5,7 +5,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export default function Layout() {
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <AppSidebar />
       <div className="flex flex-1 flex-col overflow-y-auto">
         <header className="sticky top-0 z-10 flex h-14 items-center 

@@ -19,7 +19,6 @@ const performanceSegmentSchema = z.object({
   grade: z.string().min(1, { message: "Required" }),
   playbook_trades_only: z.string().min(1, { message: "Required" }),
   sizing: z.string().min(1, { message: "Required" }),
-  // ✅ ZMIANA 3: Pole jest teraz stringiem
   immediately_in_favour: z.string(),
   comments: z.string().optional(),
 });
@@ -44,17 +43,18 @@ export default function CreateDRCPage() {
     defaultValues: {
       date: new Date().toISOString().split('T')[0],
       pnl: "0.00",
-      grade: "",
+      grade: "C", // Domyślna ocena ogólna
       goal: "",
       reminders: "",
       improvements: "",
       mistakes_with_solutions: "",
+      // ✅ ZMIANA: Domyślne wartości ocen w tabeli ustawione na "N/A"
       performance_table: [
-        { segment_name: "Mood", grade: "", playbook_trades_only: "", sizing: "", immediately_in_favour: "0/0", comments: "" },
-        { segment_name: "7-10.30", grade: "", playbook_trades_only: "", sizing: "", immediately_in_favour: "0/0", comments: "" },
-        { segment_name: "10.30-14.00", grade: "", playbook_trades_only: "", sizing: "", immediately_in_favour: "0/0", comments: "" },
-        { segment_name: "14.00-17.00", grade: "", playbook_trades_only: "", sizing: "", immediately_in_favour: "0/0", comments: "" },
-        { segment_name: "17.00-23.00", grade: "", playbook_trades_only: "", sizing: "", immediately_in_favour: "0/0", comments: "" },
+        { segment_name: "Mood", grade: "N/A", playbook_trades_only: "N/A", sizing: "N/A", immediately_in_favour: "0/0", comments: "" },
+        { segment_name: "Session 1 (09-11)", grade: "N/A", playbook_trades_only: "N/A", sizing: "N/A", immediately_in_favour: "0/0", comments: "" },
+        { segment_name: "Session 2 (11-13)", grade: "N/A", playbook_trades_only: "N/A", sizing: "N/A", immediately_in_favour: "0/0", comments: "" },
+        { segment_name: "Session 3 (13-15)", grade: "N/A", playbook_trades_only: "N/A", sizing: "N/A", immediately_in_favour: "0/0", comments: "" },
+        { segment_name: "Session 4 (15-17)", grade: "N/A", playbook_trades_only: "N/A", sizing: "N/A", immediately_in_favour: "0/0", comments: "" },
       ]
     },
   });
@@ -104,7 +104,8 @@ export default function CreateDRCPage() {
                 )} />
                 <FormField control={form.control} name="grade" render={({ field }) => (
                   <FormItem><FormLabel>Grade</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select a grade..." /></SelectTrigger></FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                        <FormControl><SelectTrigger><SelectValue placeholder="Select a grade..." /></SelectTrigger></FormControl>
                       <SelectContent>{gradeOptions.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
                     </Select>
                   <FormMessage /></FormItem>
@@ -128,7 +129,6 @@ export default function CreateDRCPage() {
             </CardContent>
           </Card>
 
-          {/* Karta z tabelą performance */}
           <Card className="bg-zinc-950 border-zinc-800">
             <CardHeader>
               <CardTitle>Performance Breakdown</CardTitle>
@@ -151,17 +151,17 @@ export default function CreateDRCPage() {
                     <TableRow key={field.id}>
                       <TableCell><FormField control={form.control} name={`performance_table.${index}.segment_name`} render={({ field }) => (<Input {...field} />)} /></TableCell>
                       <TableCell><FormField control={form.control} name={`performance_table.${index}.grade`} render={({ field }) => (
-                          <Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue/></SelectTrigger></FormControl>
+                          <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}><FormControl><SelectTrigger><SelectValue/></SelectTrigger></FormControl>
                             <SelectContent>{gradeOptions.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
                           </Select>
                         )} /></TableCell>
                       <TableCell><FormField control={form.control} name={`performance_table.${index}.playbook_trades_only`} render={({ field }) => (
-                           <Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue/></SelectTrigger></FormControl>
+                           <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}><FormControl><SelectTrigger><SelectValue/></SelectTrigger></FormControl>
                             <SelectContent>{gradeOptions.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
                           </Select>
                         )} /></TableCell>
                        <TableCell><FormField control={form.control} name={`performance_table.${index}.sizing`} render={({ field }) => (
-                           <Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue/></SelectTrigger></FormControl>
+                           <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}><FormControl><SelectTrigger><SelectValue/></SelectTrigger></FormControl>
                             <SelectContent>{gradeOptions.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
                           </Select>
                         )} /></TableCell>
@@ -171,7 +171,7 @@ export default function CreateDRCPage() {
                         )} />
                       </TableCell>
                       <TableCell><FormField control={form.control} name={`performance_table.${index}.comments`} render={({ field }) => (
-                            <Textarea {...field} placeholder="Any notes..."/>
+                            <Textarea {...field} placeholder="Any notes..." className="w-full" />
                         )} /></TableCell>
                     </TableRow>
                   ))}

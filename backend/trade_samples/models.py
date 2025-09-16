@@ -14,6 +14,9 @@ class TradeSample(models.Model):
     pnl = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trade_samples')
 
+    class Meta:
+        ordering = ['-start_date']
+
     def __str__(self):
         return f"Sample {self.name} ({self.start_date})"
 
@@ -29,13 +32,11 @@ class Trade(models.Model):
     date = models.DateTimeField()
     instrument = models.CharField(max_length=50)
     
-    # Ustawione wartości domyślne dla pól, które mogą być puste na początku
     initial_risk_pips = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     initial_target_pips = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     realized_pnl = models.DecimalField(max_digits=10, decimal_places=2)
     realized_r_multiple = models.DecimalField(max_digits=5, decimal_places=2)
     
-    # Zabezpieczamy pole outcome, ustawiając max_length na 4
     outcome = models.CharField(max_length=4, choices=OutcomeChoices.choices)
     
     rules_followed = models.BooleanField(default=True)
