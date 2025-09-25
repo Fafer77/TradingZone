@@ -19,3 +19,21 @@ class MarketDriver(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.percentage}%)"
+    
+
+class MarketBias(models.Model):
+    class BiasChoices(models.TextChoices):
+        BULLISH = 'BULLISH', 'Bullish'
+        BEARISH = 'BEARISH', 'Bearish'
+        NEUTRAL = 'NEUTRAL', 'Neutral'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    instrument = models.CharField(max_length=20)
+    bias = models.CharField(max_length=10, choices=BiasChoices.choices, default=BiasChoices.NEUTRAL)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='market_biases')
+
+    class Meta:
+        unique_together = ['owner', 'instrument'] # Jeden użytkownik = jeden wpis na instrument
+
+    def __str__(self):
+        return f"{self.instrument} bias for {self.owner.username} is {self.bias}"

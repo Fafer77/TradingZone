@@ -53,3 +53,9 @@ export type MarketDriver = {
   percentage: number;
   color: string;
 };
+
+export type MarketBias = {
+  id: string;
+  instrument: string;
+  bias: "BULLISH" | "BEARISH" | "NEUTRAL";
+};

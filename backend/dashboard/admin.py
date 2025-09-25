@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Reminder, MarketBias
 
-# Register your models here.
+# Rejestrujemy modele, aby były widoczne w panelu admina
+admin.site.register(Reminder)
+admin.site.register(MarketBias)

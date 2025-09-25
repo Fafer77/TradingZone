@@ -1,11 +1,10 @@
-// src/pages/Home.tsx
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "@/api";
 import { type Reminder, type MarketDriver } from "@/types";
 import { RemindersWidget } from "@/components/reminders-widget";
 import { MarketDriversWidget } from "@/components/market-drivers-widget";
+import { MarketBiasWidget } from "@/components/market-bias-widget";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -30,9 +29,12 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8 p-4 md:p-8">
-         <Skeleton className="h-96 w-full" />
-         <Skeleton className="h-64 w-full" />
+      <main className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8 p-4 md:p-8 items-start">
+         <div className="space-y-8">
+            <Skeleton className="h-48 w-full" />
+            <Skeleton className="h-96 w-full" />
+        </div>
+        <Skeleton className="h-64 w-full" />
       </main>
     );
   }
@@ -54,9 +56,20 @@ export default function Home() {
         </Button>
       </div>
 
+      {/* ✅ ZMIANA: Nowy, dwukolumnowy layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <MarketDriversWidget drivers={drivers} />
-        <RemindersWidget reminders={reminders} />
+        
+        {/* Lewa kolumna */}
+        <div className="space-y-8">
+            <MarketDriversWidget drivers={drivers} />
+            <MarketBiasWidget />
+        </div>
+
+        {/* Prawa kolumna */}
+        <div className="space-y-8">
+            <RemindersWidget reminders={reminders} />
+        </div>
+
       </div>
     </main>
   );
