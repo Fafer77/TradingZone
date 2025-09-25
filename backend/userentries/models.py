@@ -38,5 +38,8 @@ class Playbook(models.Model):
             return logs.aggregate(ev=Avg('realized_r'))['ev']
         return 0.00
 
+    class Meta:
+        ordering = ['-title']
+
     def __str__(self):
         return self.title

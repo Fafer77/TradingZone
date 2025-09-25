@@ -10,7 +10,6 @@ export function MarketBiasWidget() {
   const [biases, setBiases] = useState<MarketBias[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Pobierz dane przy załadowaniu komponentu
   useEffect(() => {
     fetchBiases();
   }, []);
@@ -22,17 +21,14 @@ export function MarketBiasWidget() {
       .finally(() => setLoading(false));
   };
   
-  // Zaktualizuj bias w bazie danych
-  const handleBiasChange = (instrumentId: string, newBias: "BULLISH" | "BEARISH" | "NEUTRAL") => {
-    if (!newBias) return; // Nie rób nic, jeśli użytkownik odkliknie opcję
+  const handleBiasChange = (instrumentId: string, newBias: "BULLISH" | "BEARISH" | "RANGE" | "RESURRECTION" | "NEUTRAL") => {
+    if (!newBias) return;
 
     api.put(`/api/market-bias/${instrumentId}/`, {
-      // Znajdź pełny obiekt, aby wysłać wszystkie wymagane pola
       instrument: biases.find(b => b.id === instrumentId)?.instrument,
       bias: newBias,
     })
     .then(res => {
-        // Zaktualizuj stan lokalny, aby interfejs był natychmiastowy
         setBiases(currentBiases => 
             currentBiases.map(b => b.id === instrumentId ? res.data : b)
         );
@@ -58,13 +54,21 @@ export function MarketBiasWidget() {
               type="single"
               variant="outline"
               value={bias.bias}
-              onValueChange={(value) => handleBiasChange(bias.id, value as any)}
+              onValueChange={(value) => handleBiasChange(bias.id, value as "BULLISH" | "BEARISH" | "RANGE" | "RESURRECTION" | "NEUTRAL")}
+              className="flex-wrap justify-end"
             >
-              <ToggleGroupItem value="BULLISH" aria-label="Toggle bullish" className="data-[state=on]:bg-emerald-900/50 data-[state=on]:text-emerald-300">
+              {/* ✅ ZMIANA: Dodano klasę `px-3` do każdego przycisku */}
+              <ToggleGroupItem value="BULLISH" className="data-[state=on]:bg-emerald-900/50 data-[state=on]:text-emerald-300 px-3">
                 Bullish
               </ToggleGroupItem>
-              <ToggleGroupItem value="BEARISH" aria-label="Toggle bearish" className="data-[state=on]:bg-rose-900/50 data-[state=on]:text-rose-300">
+              <ToggleGroupItem value="BEARISH" className="data-[state=on]:bg-rose-900/50 data-[state=on]:text-rose-300 px-3">
                 Bearish
+              </ToggleGroupItem>
+              <ToggleGroupItem value="RANGE" className="data-[state=on]:bg-yellow-900/50 data-[state=on]:text-yellow-300 px-3">
+                Range
+              </ToggleGroupItem>
+              <ToggleGroupItem value="RESURRECTION" className="data-[state=on]:bg-sky-900/50 data-[state=on]:text-sky-300 px-3">
+                Rsrrct
               </ToggleGroupItem>
             </ToggleGroup>
           </div>

@@ -57,5 +57,5 @@ export type MarketDriver = {
 export type MarketBias = {
   id: string;
   instrument: string;
-  bias: "BULLISH" | "BEARISH" | "NEUTRAL";
+  bias: "BULLISH" | "BEARISH" | "RANGE" | "RESURRECTION" | "NEUTRAL";
 };
