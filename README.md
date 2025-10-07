@@ -22,22 +22,20 @@
 
 ## About The Project
 
-TradeCraft is a comprehensive journaling and analytics tool built for modern traders. Moving beyond simple spreadsheets, this platform provides a structured, data-driven environment to build, test, and refine trading strategies. By logging every trade and daily metric, users can calculate statistical edges like Expected Value (EV) and gain deep insights into their performance.
-
-This project was built from the ground up to demonstrate a full-stack skill set using a modern and scalable tech stack.
+TradeCraft is a journaling and analytics tool which goal is to help traders become and stay consistent. Monitor your progress using popular and proven concepts - Daily Report Card, Trade Samples. Build your own dashboard, mark your market drivers,
+reminders and which instruments are bullish or bearish. Create your own playbook and entry criteria in order to build better discipline.
 
 ---
 
 ## ✨ Features & Screenshots
 
-The application is composed of several key modules, providing a complete ecosystem for performance tracking.
-
-*(Wskazówka: Zastąp poniższe linki linkami do swoich screenshotów, które wgrasz do repozytorium.)*
+The application is composed of several key modules, providing an ecosystem for performance tracking.
 
 | Dashboard | Playbook View | Daily Report Card |
 | :---: | :---: | :---: |
-| *Your screenshot of the main dashboard here* | *Your screenshot of the playbook page here* | *Your screenshot of a DRC page here* |
-| `![Dashboard View](link_to_dashboard_screenshot.png)` | `![Playbook View](link_to_playbook_screenshot.png)` | `![DRC View](link_to_drc_screenshot.png)` |
+| ![Dashboard View](./ss/dashboard.png) | ![Playbook View](./ss/playbook.png) | ![DRC View](./ss/DailyReportCard.png) |
+| **Trade Samples List** | **Playbook Detail** | **DRC Detail** |
+| ![Trade Samples List](./ss/tradeSample.png) | ![Playbook Detail View](./ss/playbook_example.png) | ![DRC Detail View](./ss/DRCExample.png) |
 
 - **🔐 Secure Authentication**: Full user registration and login system using JWT for secure, stateless sessions.
 - **📊 Interactive Dashboard**: A central hub featuring dynamic widgets for `Market Drivers` (bubble visualization), `Market Bias` (interactive toggles), and psychological `Reminders`.
@@ -63,13 +61,13 @@ This project is built with a modern, full-stack architecture using industry-stan
 
 ## 🚀 Getting Started
 
-To get a local copy up and running, follow these simple steps.
+To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
 - Python 3.10+
 - Node.js & npm
-- PostgreSQL database (a free tier from [Neon](https://neon.tech/) is recommended)
+- PostgreSQL database - neontech
 
 ### Backend Setup
 
