@@ -1,23 +1,4 @@
 # TradeCraft - Trading Analytics Platform
-
-<div align="center">
-  <img src="https://YOUR_LINK_TO_A_LOGO_OR_BANNER.png" alt="Project Banner" width="800"/>
-</div>
-
-<p align="center">
-  Application for traders which helps monitor your progress.
-  <br />
-  <a href="#-features"><strong>Explore the features »</strong></a>
-  <br />
-  <br />
-  <a href="#">View Demo</a>
-  ·
-  <a href="#">Report Bug</a>
-  ·
-  <a href="#">Request Feature</a>
-</p>
-
-
 ---
 
 ## About The Project
